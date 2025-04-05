@@ -205,42 +205,42 @@ struct lessthanbycost {
 
 int minCost(vector<vector<int>>& grid) {
     vector<vector<int>> dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-    int m = grid.size();
-    if (m == 0) return 0;
-    int n = grid[0].size();
+    int m=grid.size();
+    if (m==0) return 0;
+    int n=grid[0].size();
     priority_queue<pair3, vector<pair3>, lessthanbycost> pq;
     vector<vector<int>> cost(m, vector<int>(n, INT_MAX));
     vector<vector<bool>> visited(m, vector<bool>(n, false));
     
     pq.push({{0, 0}, 0});
-    cost[0][0] = 0;
+    cost[0][0]=0;
     
     while(!pq.empty()) {
-        pair3 current = pq.top();
+        pair3 current=pq.top();
         pq.pop();
-        int x = current.index.first;
-        int y = current.index.second;
+        int x=current.index.first;
+        int y=current.index.second;
         
         if(visited[x][y]) continue;
-        visited[x][y] = true;
+        visited[x][y]=true;
         
         if(x==m-1&&y==n-1) {
             return current.cost;
         }
         
         for(int i=0;i<4;i++) {
-            int nx = x+dirs[i][0];
-            int ny = y+dirs[i][1];
+            int nx=x+dirs[i][0];
+            int ny=y+dirs[i][1];
             
             if(nx<0||nx>=m||ny<0||ny>=n) continue;
           
-            int new_cost = current.cost;
-            if(grid[x][y]!= i+1) { // +1 because directions are 1-4 in problem
-                new_cost += 1;
+            int new_cost=current.cost;
+            if(grid[x][y]!=i+1) { // +1 because directions are 1-4 in problem
+                new_cost+=1;
             }
             
             if(new_cost<cost[nx][ny]) {
-                cost[nx][ny] = new_cost;
+                cost[nx][ny]=new_cost;
                 pq.push({{nx, ny}, new_cost});
             }
         }
@@ -257,23 +257,23 @@ struct State {
 };
 
 int shortestPathLength(vector<vector<int>>& graph) {
-    int n = graph.size();
+    int n=graph.size();
     if(n==1) return 0;
     queue<State> q;
     for(int i=0;i<n;i++) {
         vector<bool> initial_visited(n, false);
-        initial_visited[i] = true;
+        initial_visited[i]=true;
         q.push({i, initial_visited, 0});
     }
     
     while(!q.empty()) {
-        State current = q.front();
+        State current=q.front();
         q.pop();
 
-        bool all_visited = true;
-        for(bool v : current.visited) {
+        bool all_visited=true;
+        for(bool v:current.visited) {
             if(!v) {
-                all_visited = false;
+                all_visited=false;
                 break;
             }
         }
@@ -281,12 +281,12 @@ int shortestPathLength(vector<vector<int>>& graph) {
             return current.path_length;
         }
         
-        for(int neighbor : graph[current.current_node]) {
+        for(int neighbor:graph[current.current_node]) {
             //cout<<neighbor<<endl;
-            vector<bool> new_visited = current.visited;
-            new_visited[neighbor] = true;
+            vector<bool> new_visited=current.visited;
+            new_visited[neighbor]=true;
             
-            bool state_exists = false;
+            bool state_exists=false;
 
             queue<State> temp_q=q;
             while(!temp_q.empty()) {
@@ -294,7 +294,7 @@ int shortestPathLength(vector<vector<int>>& graph) {
                 temp_q.pop();
                 if (s.current_node==neighbor&&s.visited==new_visited) {
                     //cout<<"neighbor: "<<neighbor<<endl;
-                    state_exists = true;
+                    state_exists=true;
                     break;
                 }
             }
